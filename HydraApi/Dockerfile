@@ -6,7 +6,6 @@ USER $APP_UID
 WORKDIR /app
 EXPOSE 8080
 EXPOSE 8081
-ENV ASPNETCORE_URLS=http://+:8080
 
 
 # This stage is used to build the service project
@@ -27,5 +26,6 @@ RUN dotnet publish "./HydraApi.csproj" -c $BUILD_CONFIGURATION -o /app/publish /
 # This stage is used in production or when running from VS in regular mode (Default when not using the Debug configuration)
 FROM base AS final
 WORKDIR /app
+
 COPY --from=publish /app/publish .
 ENTRYPOINT ["dotnet", "HydraApi.dll"]
